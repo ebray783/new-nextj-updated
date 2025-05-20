@@ -10,7 +10,8 @@ import { bsc, mainnet } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const projectId = 'ff2db6544a529027450c74a34fc4fb74';
+// Use environment variables
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 
 const { chains, publicClient } = configureChains(
   [mainnet, bsc],
@@ -31,12 +32,6 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-function WalletManager({ children }) {
-  const { useWalletConnect } = require('./hooks/useWalletConnect');
-  useWalletConnect();
-  return children;
-}
-
 export function Providers({ children }) {
   return (
     <WagmiConfig config={wagmiConfig}>
@@ -50,9 +45,7 @@ export function Providers({ children }) {
             learnMoreUrl: 'https://fpvtoken.com',
           }}
         >
-          <WalletManager>
-            {children}
-          </WalletManager>
+          {children}
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiConfig>
