@@ -9,6 +9,12 @@ const nextConfig = {
       },
     ],
   },
+  // Add Cloudflare specific settings
+  reactStrictMode: true,
+  swcMinify: true,
+  experimental: {
+    runtime: 'edge',
+  }
 };
 
 module.exports = nextConfig;
