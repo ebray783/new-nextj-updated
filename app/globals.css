@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './css/about.css';
+@import './css/airdrop.css';
+@import './css/airdrop1.css';
+@import './css/animations.css';
+@import './css/base.css';
+@import './css/bottons.css';
+@import './css/explorer.css';
+@import './css/explorer1.css';
+@import './css/footer.css';
+@import './css/fpv-parts.css';
+@import './css/here-we-go.css';
+@import './css/hero.css';
+@import './css/icon-fixes.css';
+@import './css/improved.css';
+@import './css/navbar.css';
+@import './css/nft-carousel.css';
+@import './css/presale.css';
+@import './css/rainbowkit-custom.css';
+@import './css/roadmap.css';
+@import './css/token-grid.css';
+@import './css/tokenomics.css';
+@import './css/wallet-mobile.css';
