@@ -108,10 +108,10 @@ export default function Home() {
 
             <div className="button-group">
               <a href="https://pancakeswap.finance/swap?outputCurrency=0x1BEe8d11f11260A4E39627EDfCEB345aAfeb57d9" target="_blank" rel="noopener" className="buy-button">
-                <button><i className="fa-solid fa-cart-shopping"></i> Buy Now</button>
+                <button><i className="fa-solid fa-cart-shopping"></i> Buy Soon</button>
               </a>
               <a href="https://pancakeswap.finance/swap?inputCurrency=0x1BEe8d11f11260A4E39627EDfCEB345aAfeb57d9" target="_blank" rel="noopener">
-                <button><i className="fa-solid fa-right-left"></i> Sell Token</button>
+                <button><i className="fa-solid fa-right-left"></i> Sell Soon</button>
               </a>
             </div>
 
