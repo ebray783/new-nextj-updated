@@ -402,7 +402,6 @@ export default function Home() {
                 width={120}
                 height={60}
                 style={{ width: 'auto', height: '60px' }}
-                style={{ width: 'auto', height: '60px' }}
               />
             ))}
           </div>

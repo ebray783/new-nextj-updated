@@ -1,0 +1,12 @@
+name = "wagminew"
+compatibility_date = "2023-05-21"
+
+# Next.js configuration for Cloudflare Pages
+[build]
+command = "npm run build"
+
+[site]
+bucket = ".next"
+
+[env.production]
+workers_dev = true
