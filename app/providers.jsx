@@ -11,10 +11,11 @@ import {
   ledgerWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { mainnet } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useWalletConnect } from './hooks/useWalletConnect';
+
+const ANKR_RPC_URL = 'https://rpc.ankr.com/bsc/94d6e3288ef23972866786bac45d4da5296c73fad7336ee164f186c646d25481';
 
 const bsc = {
   id: 56,
@@ -26,8 +27,12 @@ const bsc = {
     symbol: 'BNB',
   },
   rpcUrls: {
-    default: 'https://bsc-dataseed.binance.org/',
-    public: 'https://bsc-dataseed.binance.org/',
+    default: {
+      http: [ANKR_RPC_URL]
+    },
+    public: {
+      http: [ANKR_RPC_URL]
+    }
   },
   blockExplorers: {
     default: { name: 'BscScan', url: 'https://bscscan.com' },
@@ -35,11 +40,17 @@ const bsc = {
   testnet: false,
 };
 
-const projectId = 'ff2db6544a529027450c74a34fc4fb74';
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || 'ff2db6544a529027450c74a34fc4fb74';
 
-const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet, bsc],
-  [publicProvider()]
+const { chains, provider } = configureChains(
+  [bsc],
+  [
+    jsonRpcProvider({
+      rpc: () => ({
+        http: ANKR_RPC_URL
+      })
+    })
+  ]
 );
 
 const connectors = connectorsForWallets([
@@ -58,8 +69,7 @@ const connectors = connectorsForWallets([
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider,
-  webSocketProvider,
+  provider
 });
 
 const queryClient = new QueryClient();

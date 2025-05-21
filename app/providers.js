@@ -6,16 +6,36 @@ import {
   getDefaultWallets,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { bsc, mainnet } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
+import { bsc } from 'wagmi/chains';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Use environment variables
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+const ANKR_RPC_URL = 'https://rpc.ankr.com/bsc/94d6e3288ef23972866786bac45d4da5296c73fad7336ee164f186c646d25481';
+
+// Configure BSC with Ankr RPC
+const bscWithAnkr = {
+  ...bsc,
+  rpcUrls: {
+    default: {
+      http: [ANKR_RPC_URL],
+    },
+    public: {
+      http: [ANKR_RPC_URL],
+    },
+  },
+};
 
 const { chains, publicClient } = configureChains(
-  [mainnet, bsc],
-  [publicProvider()]
+  [bscWithAnkr], // Only use BSC
+  [
+    jsonRpcProvider({
+      rpc: () => ({
+        http: ANKR_RPC_URL
+      })
+    })
+  ]
 );
 
 const { connectors } = getDefaultWallets({

@@ -1,7 +1,7 @@
 "use client";
 
 // Import React and Next.js components
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +12,6 @@ import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { setupWeb3Functions } from './main.js';
 import AirdropClaim from './airdroptoken.js';
-import Presale from './presale/presale.js';  // Add this import
 
 export default function Home() {
   const router = useRouter();
@@ -21,10 +20,23 @@ export default function Home() {
   const { address, isConnected } = useAccount();
   const { useMintNFT } = setupWeb3Functions();
   const { mintNFT, isLoading, error, txHash } = useMintNFT();
+  
+  // NFT carousel state
+  const [activeNFT, setActiveNFT] = useState(0);
+  const nftCarouselRef = useRef(null);
 
   // Fix for hydration warning
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
+
+  // NFT Carousel functionality
+  useEffect(() => {
+    const nftInterval = setInterval(() => {
+      setActiveNFT(prev => (prev + 1) % 9);
+    }, 3000);
+    
+    return () => clearInterval(nftInterval);
+  }, []);
 
   useEffect(() => {
     // Counter animation effect
@@ -70,18 +82,35 @@ export default function Home() {
         <meta name="description" content="FPVTOKEN is the first crypto token inspired by aliens Predator idea, including real FPV drone parts & NFT collection" />
       </Head>
 
-      <main>
-        {/* Navigation Bar */}
+      <main>        {/* Navigation Bar */}
         <div className="topbar" id="topbar">
-          <div className="search-bar">
-            <i className="fa-solid fa-search search-icon"></i>
-            <input type="text" placeholder="Search..." aria-label="Search" />
-          </div>
-          <div className="nav-buttons">
-            <button onClick={() => scrollToSection('top')}>Home</button>
-            <button onClick={() => scrollToSection('about')}>About</button>
-            <button onClick={() => scrollToSection('airdrop-section')}>Claim</button>
-            <button onClick={() => scrollToSection('contact')}>Contact</button>
+          <div className="topbar-brand">
+            <h1 className="brand-text glitch-text">FPVTOKEN</h1>
+          </div>          <div className="menu-container">            <button className="menu-trigger" onClick={() => {
+              const menu = document.querySelector('.nav-buttons');
+              menu.classList.toggle('show');
+            }}>
+              <i className="fa-solid fa-bars"></i>
+              <span className="menu-text">MENU</span>
+            </button>
+            <nav className="nav-buttons">
+              <button onClick={() => {
+                scrollToSection('top');
+                document.querySelector('.nav-buttons').classList.remove('show');
+              }}>Home</button>
+              <button onClick={() => {
+                scrollToSection('about');
+                document.querySelector('.nav-buttons').classList.remove('show');
+              }}>About</button>
+              <button onClick={() => {
+                scrollToSection('airdrop-section');
+                document.querySelector('.nav-buttons').classList.remove('show');
+              }}>Claim</button>
+              <button onClick={() => {
+                scrollToSection('contact');
+                document.querySelector('.nav-buttons').classList.remove('show');
+              }}>Contact</button>
+            </nav>
           </div>
         </div>
 
@@ -89,14 +118,14 @@ export default function Home() {
         <section id="top" className="hero-section">
           {/* All original Hero Section content */}
           <div className="container">
-            <div className="logo-container">
-              <Image 
+            <div className="logo-container">              <Image 
                 id="logo" 
                 src="/gallery/logo.jpg" 
                 alt="FPVTOKEN Logo" 
                 className="cyber-scanner" 
                 width={150}
                 height={150}
+                priority={true}
               />
               <div className="logo-overlay"></div>
             </div>
@@ -184,11 +213,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        {/* Presale Section */}
-        <section id="presale-section" className="presale-section">
-          <Presale />
-        </section>
         
         {/* Airdrop Section - Mint, wallet, and working React airdrop claim button */}
         <section id="airdrop-section">
@@ -199,9 +223,9 @@ export default function Home() {
               
               {/* NFT Preview Carousel */}
               <div className="nft-preview-container">
-                <div className="nft-carousel">
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-                    <div key={num} className="nft-slide">
+                <div className="nft-carousel" ref={nftCarouselRef}>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num, index) => (
+                    <div key={num} className={`nft-slide ${activeNFT === index ? 'active' : ''}`}>
                       <Image
                         src={`/nft/nft${num}.jpg`}
                         alt={`NFT ${num}`}
@@ -371,13 +395,14 @@ export default function Home() {
             {[
               'walksnail', 'lumenier', 'iflight', 'radiomaster',
               'rdq', 'emax', 
-            ].map((brand) => (
-              <Image 
+            ].map((brand) => (              <Image 
                 key={brand}
                 src={`/explorer/${brand}.jpg`} 
                 alt={brand.charAt(0).toUpperCase() + brand.slice(1)} 
                 width={120}
                 height={60}
+                style={{ width: 'auto', height: '60px' }}
+                style={{ width: 'auto', height: '60px' }}
               />
             ))}
           </div>

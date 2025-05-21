@@ -23,7 +23,7 @@ export default function PresalePage() {
   const tokenPrices = {
     carbon: "0.01",   // 0.01 USDT per Carbon token
     solar: "0.01",    // 0.01 USDT per Solar Wind token
-    fpv: "0.001"      // 0.001 USDT per FPV token
+    fpv: "0.0006"     // 0.0006 USDT per FPV token
   };
 
   // Only render after client mount to avoid hydration mismatch
@@ -36,10 +36,20 @@ export default function PresalePage() {
       return;
     }
     
-    if (chain?.id !== presaleConfig.chainId && switchNetwork) {
-      switchNetwork(presaleConfig.chainId);
-      setStatus("❌ Please switch to BSC Testnet.");
-      return;
+    if (chain?.id !== presaleConfig.chainId) {
+      try {
+        if (switchNetwork) {
+          await switchNetwork(presaleConfig.chainId);
+          setStatus("⏳ Switching to BSC Mainnet...");
+          return;
+        } else {
+          setStatus("❌ Please manually switch to BSC Mainnet in your wallet.");
+          return;
+        }
+      } catch (error) {
+        setStatus("❌ Failed to switch network. Please switch manually to BSC Mainnet.");
+        return;
+      }
     }
     
     if (!parseFloat(amount)) {
