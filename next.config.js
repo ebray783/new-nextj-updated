@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {  images: {
-    domains: ['i.postimg.cc'],
+const nextConfig = {
+  images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -11,7 +12,7 @@ const nextConfig = {  images: {
   // Cloudflare Pages specific settings
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
+  output: 'export', // Changed from 'standalone' to 'export' for static site generation
   env: {
     NEXT_PUBLIC_PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
     NEXT_PUBLIC_CHAIN_ID: process.env.NEXT_PUBLIC_CHAIN_ID,

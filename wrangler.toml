@@ -5,8 +5,15 @@ compatibility_date = "2023-05-21"
 [build]
 command = "npm run build"
 
+# Use the out directory for static site generation with Next.js
 [site]
-bucket = ".next"
+bucket = "out"
+
+# For Cloudflare Pages
+pages_build_output_dir = "out"
 
 [env.production]
 workers_dev = true
+
+[build.environment]
+NODE_VERSION = "18"
