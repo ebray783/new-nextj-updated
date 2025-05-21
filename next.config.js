@@ -9,13 +9,10 @@ const nextConfig = {
       },
     ],
   },
-  // Add Cloudflare specific settings
+  // Cloudflare Pages specific settings
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    runtime: 'edge',
-  },
-  // Add environment variables that should be exposed to the client
+  output: 'standalone',
   env: {
     NEXT_PUBLIC_PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
     NEXT_PUBLIC_CHAIN_ID: process.env.NEXT_PUBLIC_CHAIN_ID,
