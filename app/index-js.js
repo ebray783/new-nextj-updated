@@ -7,12 +7,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+// Import Font Awesome
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 // Import wagmi and RainbowKit
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { setupWeb3Functions } from './main.js';
 import AirdropClaim from './airdroptoken.js';
-
 export default function Home() {
   const router = useRouter();
   
@@ -29,14 +31,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  // NFT Carousel functionality
-  useEffect(() => {
-    const nftInterval = setInterval(() => {
-      setActiveNFT(prev => (prev + 1) % 9);
-    }, 3000);
-    
-    return () => clearInterval(nftInterval);
-  }, []);
+  
 
   useEffect(() => {
     // Counter animation effect
@@ -74,12 +69,13 @@ export default function Home() {
 
   return (
     <>
-      <Head>
+    <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta httpEquiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;" />
         <title>FPVTOKEN - Cyberpunk Crypto & NFT</title>
         <meta name="description" content="FPVTOKEN is the first crypto token inspired by aliens Predator idea, including real FPV drone parts & NFT collection" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
       </Head>
 
       <main>        {/* Navigation Bar */}
@@ -136,10 +132,10 @@ export default function Home() {
             </p>
 
             <div className="button-group">
-              <a href="https://pancakeswap.finance/swap?outputCurrency=0x1BEe8d11f11260A4E39627EDfCEB345aAfeb57d9" target="_blank" rel="noopener" className="buy-button">
+              <a href="https://pancakeswap.finance/swap?outputCurrency=0x1cC4a0b04f0cD580c497692451579dEC7BA02aE68" target="_blank" rel="noopener" className="buy-button">
                 <button><i className="fa-solid fa-cart-shopping"></i> Buy Soon</button>
               </a>
-              <a href="https://pancakeswap.finance/swap?inputCurrency=0x1BEe8d11f11260A4E39627EDfCEB345aAfeb57d9" target="_blank" rel="noopener">
+              <a href="https://pancakeswap.finance/swap?inputCurrency=0x1cC4a0b04f0cD580c497692451579dEC7BA02aE68" target="_blank" rel="noopener">
                 <button><i className="fa-solid fa-right-left"></i> Sell Soon</button>
               </a>
             </div>
@@ -176,10 +172,12 @@ export default function Home() {
                   FPVTOKEN is the first crypto project merging FPV drone parts & NFTs.
                   Inspired by alien Predator themes, our mission is aiming at technology and FPV racing 
                   into one unified ecosystem.
-                </p>
-                <div className="features-list">
+                </p>                <div className="features-list">
                   <div className="feature-item">
-                    <i className="fa-solid fa-drone"></i>
+                    <span style={{ position: 'relative', display: 'inline-block' }}>
+                      <i className="fa-solid fa-plane fa-fw" style={{ color: '#00ffff' }}></i>
+                     
+                    </span>
                     <h3>FPV Technology</h3>
                     <p>Real world hardware integration with blockchain</p>
                   </div>
@@ -220,25 +218,22 @@ export default function Home() {
             {/* NFT Minting Container */}
             <div className="cyberpunk-container">
               <h2 className="cyberpunk-title">Mint NFT</h2>
-              
               {/* NFT Preview Carousel */}
-              <div className="nft-preview-container">
-                <div className="nft-carousel" ref={nftCarouselRef}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num, index) => (
-                    <div key={num} className={`nft-slide ${activeNFT === index ? 'active' : ''}`}>
-                      <Image
-                        src={`/nft/nft${num}.jpg`}
-                        alt={`NFT ${num}`}
-                        className="nft-image"
-                        width={250}
-                        height={250}
-                        priority={num === 1}
-                      />
-                      <div className="nft-overlay" />
-                    </div>
-                  ))}
-                </div>
-              </div>
+<div className="nft-preview-container">
+  <div className="nft-glass">
+    <div className="nft-card">
+      <Image
+        src="/nft/nft1.jpg"
+        alt="NFT 1"
+        className="nft-image"
+        width={250}
+        height={250}
+        priority
+      />
+      <div className="nft-overlay" />
+    </div>
+  </div>
+</div>
 
               <div className="wallet-container">
                 <ConnectButton showBalance={true} />
@@ -356,7 +351,11 @@ export default function Home() {
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Contract:</span>
-                    <span className="detail-value contract-address">0x1BEe8d11f11260A4E39627EDfCEB345aAfeb57d9</span>
+                    <span className="detail-value contract-address">
+  <a href="https://bscscan.com/address/0x1cC4a0b04f0cD580c497692451579dEC7BA02aE6" target="_blank" rel="noopener noreferrer">
+    0x1cC4a0b04f0cD580c497692451579dEC7BA02aE6
+  </a>
+</span>
                   </div>
                   <div className="detail-item">
                     <span className="detail-label">Network:</span>
@@ -487,10 +486,21 @@ export default function Home() {
 
         {/* FPV Drone List Section */}
         <section className="fpv-parts-section">
-          {/* Keep all original FPV Parts Section content */}
-          <div className="container">
-            <h1 className="title">FPV DRONE LIST PART</h1>
-            <div className="subtitle">THE COMPLETE LIST OF PART</div>
+          {/* Keep all original FPV Parts Section content */}          <div className="container">            <div className="title-wrapper" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '15px', margin: '20px 0' }}>              <span style={{ position: 'relative', display: 'inline-block' }}>
+                <i className="fas fa-fighter-jet fa-fw fa-2x" style={{ color: '#00ffff', transform: 'rotate(-45deg)' }}></i>
+               
+              </span>
+              <h1 className="title">FPV DRONE LIST PART</h1>
+              <span style={{ position: 'relative', display: 'inline-block' }}>
+                <i className="fas fa-fighter-jet fa-fw fa-2x" style={{ color: '#00ffff', transform: 'rotate(-120deg)' }}></i>
+                
+              </span>
+            </div>
+            <div className="subtitle" style={{ textAlign: 'center', marginBottom: '30px', position: 'relative' }}>
+              <i className="fas fa-angle-double-down" style={{ marginRight: '10px', color: '#00ffff' }}></i>
+              THE COMPLETE LIST OF PART
+              <i className="fas fa-angle-double-down" style={{ marginLeft: '10px', color: '#00ffff' }}></i>
+            </div>
             
             <ul className="parts-grid">
               {[
@@ -513,7 +523,7 @@ export default function Home() {
               ))}
             </ul>
 
-            <div className="highlight">
+             <div className="highlight">
               <div className="trophy-icon">
                 <i className="fas fa-trophy"></i>
               </div>
@@ -524,7 +534,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         {/* Token Grid Section */}
         <section id="token-grid" className="token-grid-section">
           {/* Keep all original Token Grid content */}
@@ -636,12 +645,14 @@ export default function Home() {
                   </a>
                   <a href="https://t.me/fpvdronetoken" target="_blank" rel="noopener" aria-label="Telegram" className="social-icon telegram-link">
                     <img src="/social/telegram.svg" alt="Telegram" width="24" height="24" />
-                  </a>
-                  <a href="https://github.com/ebray783" target="_blank" rel="noopener" aria-label="GitHub" className="social-icon github-link">
+                  </a>                  <a href="https://github.com/ebray783" target="_blank" rel="noopener" aria-label="GitHub" className="social-icon github-link">
                     <img src="/social/github.svg" alt="GitHub" width="24" height="24" />
                   </a>
                   <a href="https://www.facebook.com/fpvdronetoken" target="_blank" rel="noopener" aria-label="Facebook" className="social-icon facebook-link">
                     <img src="/social/facebook.svg" alt="Facebook" width="24" height="24" />
+                  </a>
+                   <a href="https://www.linkedin.com/in/raghebsabih" target="_blank" rel="noopener" aria-label="LinkedIn" className="social-icon linkedin-link">
+                    <img src="/social/linkedin.svg" alt="LinkedIn" width="24" height="24" />
                   </a>
                 </div>
               </div>
@@ -656,4 +667,3 @@ export default function Home() {
     </>
   );
 }
-

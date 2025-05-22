@@ -605,8 +605,57 @@
   text-shadow: 0 0 10px var(--accent);
 }
 
-.nft-preview {
-  margin-bottom: var(--airdrop-padding-md);
+.nft-preview-container {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  margin: 2rem auto;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+  perspective: 1000px;
+  transition: all 0.3s ease;
+  transform: translateX(0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Remove the hover transform that was causing position shifts */
+.nft-preview-container:hover {
+  filter: brightness(1.2);
+}
+
+/* Update responsive styles */
+@media (max-width: 1600px) {
+  .nft-preview-container {
+    margin: 2rem auto;
+  }
+}
+
+@media (max-width: 1200px) {
+  .nft-preview-container {
+    margin: 2rem auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .nft-preview-container {
+    margin: 2rem auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .nft-preview-container {
+    margin: 2rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .nft-preview-container {
+    margin: 2rem auto;
+  }
 }
 
 .nft-card {
@@ -758,6 +807,10 @@
   
   .nft-carousel {
     margin: 0 auto 1.5rem;
+  }
+
+  .nft-shift-right {
+    padding-left: 30px;
   }
 }
 
@@ -951,4 +1004,86 @@
   box-shadow: 
     0 0 30px rgba(0, 240, 255, 0.4),
     inset 0 0 30px rgba(0, 240, 255, 0.4);
+}
+
+.nft-glass {
+  background: rgba(0, 255, 247, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 255, 247, 0.18);
+  padding: 16px;
+  display: inline-block;
+}
+.nft-glass img {
+  border-radius: 12px;
+  width: 100%;
+}
+
+.nft-shift-right {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 60px;
+  position: relative;
+  transition: all 0.3s ease;
+  transform: translateX(0);
+  will-change: transform;
+}
+
+/* Remove the hover transform */
+.nft-shift-right:hover {
+  filter: brightness(1.2);
+}
+
+/* Update responsive styles */
+@media (max-width: 1600px) {
+  .nft-shift-right {
+    padding-left: 60px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .nft-shift-right {
+    padding-left: 60px;
+  }
+}
+
+@media (max-width: 992px) {
+  .nft-shift-right {
+    padding-left: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nft-shift-right {
+    padding-left: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nft-shift-right {
+    padding-left: 20px;
+  }
+}
+
+/* Add animation for smoother transitions */
+@keyframes shiftRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(10px);
+  }
+}
+
+/* Add hardware acceleration */
+.nft-shift-right {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
 }

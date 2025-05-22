@@ -12,7 +12,7 @@ const nextConfig = {
   // Cloudflare Pages specific settings
   reactStrictMode: true,
   swcMinify: true,
-  output: 'export', // Changed from 'standalone' to 'export' for static site generation
+  output: 'standalone',
   env: {
     NEXT_PUBLIC_PROJECT_ID: process.env.NEXT_PUBLIC_PROJECT_ID,
     NEXT_PUBLIC_CHAIN_ID: process.env.NEXT_PUBLIC_CHAIN_ID,
