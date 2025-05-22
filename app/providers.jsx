@@ -19,7 +19,7 @@ const ANKR_RPC_URL = 'https://rpc.ankr.com/bsc/94d6e3288ef23972866786bac45d4da52
 
 const bsc = {
   id: 56,
-  name: 'BNB Chain',
+  name: 'BNB Smart Chain',
   network: 'bsc',
   nativeCurrency: {
     decimals: 18,
@@ -28,14 +28,21 @@ const bsc = {
   },
   rpcUrls: {
     default: {
-      http: [ANKR_RPC_URL]
+      http: [ANKR_RPC_URL, 'https://bsc-dataseed1.binance.org', 'https://bsc-dataseed2.binance.org']
     },
     public: {
-      http: [ANKR_RPC_URL]
+      http: [ANKR_RPC_URL, 'https://bsc-dataseed1.binance.org', 'https://bsc-dataseed2.binance.org']
     }
   },
   blockExplorers: {
     default: { name: 'BscScan', url: 'https://bscscan.com' },
+    etherscan: { name: 'BscScan', url: 'https://bscscan.com' }
+  },
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 15921452,
+    },
   },
   testnet: false,
 };
@@ -46,25 +53,15 @@ const { chains, provider } = configureChains(
   [bsc],
   [
     jsonRpcProvider({
-      rpc: () => ({
-        http: ANKR_RPC_URL
-      })
+      rpc: (chain) => ({
+        http: ANKR_RPC_URL,
+        WebSocket: `wss://bsc-mainnet.nodereal.io/ws/v1/${projectId}`
+      }),
+      stallTimeout: 3000,
+      priority: 0
     })
   ]
 );
-
-const connectors = connectorsForWallets([
-  {
-    groupName: 'Recommended',
-    wallets: [
-      rainbowWallet({ projectId, chains }),
-      walletConnectWallet({ projectId, chains }),
-      metaMaskWallet({ projectId, chains }),
-      trustWallet({ projectId, chains }),
-      ledgerWallet({ projectId, chains }),
-    ],
-  },
-]);
 
 const connectors = connectorsForWallets([
   {
@@ -87,7 +84,10 @@ const connectors = connectorsForWallets([
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider
+  provider,
+  logger: {
+    warn: (message) => console.warn(message),
+  },
 });
 
 const queryClient = new QueryClient();
