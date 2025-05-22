@@ -4,9 +4,24 @@ import { useEffect } from 'react';
 import { useConnect, useNetwork, useSwitchNetwork } from 'wagmi';
 
 export function useWalletConnect() {
-  const { connect, connectors } = useConnect();
+  const { connect, connectors } = useConnect({
+    onSuccess(data) {
+      // Handle successful connection
+      console.log('Connected successfully', data);
+    },
+    onError(error) {
+      console.error('Connection error:', error);
+    },
+  });
   const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
+  const { switchNetwork } = useSwitchNetwork({
+    onSuccess(data) {
+      console.log('Switched network successfully', data);
+    },
+    onError(error) {
+      console.error('Network switch error:', error);
+    },
+  });
 
   useEffect(() => {
     let mounted = true;
