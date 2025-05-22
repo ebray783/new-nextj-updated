@@ -1,0 +1,5 @@
+{
+  "bypass_all_auth": true,
+  "require_auth": false,
+  "access_policy": null
+}

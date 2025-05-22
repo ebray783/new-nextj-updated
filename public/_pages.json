@@ -1,0 +1,6 @@
+{
+  "pages": {
+    "require_authentication": false,
+    "public_access": true
+  }
+}
