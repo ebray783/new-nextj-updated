@@ -1,0 +1,6 @@
+{
+  "access": false,
+  "authentication": false,
+  "authorization": false,
+  "bypass_auth": true
+}
