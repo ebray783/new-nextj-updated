@@ -2,5 +2,3 @@
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
   Access-Control-Allow-Headers: Content-Type, Authorization
-  CF-Access-Client-Id: null
-  CF-Access-Client-Secret: null
