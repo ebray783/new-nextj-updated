@@ -66,6 +66,24 @@ const connectors = connectorsForWallets([
   },
 ]);
 
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Popular',
+    wallets: [
+      metaMaskWallet({ projectId, chains }),
+      trustWallet({ projectId, chains, shimDisconnect: true }),
+      walletConnectWallet({ projectId, chains }),
+    ],
+  },
+  {
+    groupName: 'Other',
+    wallets: [
+      rainbowWallet({ projectId, chains }),
+      ledgerWallet({ projectId, chains }),
+    ],
+  },
+]);
+
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
@@ -79,15 +97,16 @@ export function Providers({ children }) {
 
   return (
     <WagmiConfig config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider
+      <QueryClientProvider client={queryClient}>        <RainbowKitProvider
           chains={chains}
           modalSize="compact"
           initialChain={bsc}
+          showRecentTransactions={true}
           appInfo={{
             appName: 'FPV Token',
             learnMoreUrl: 'https://fpvtoken.com',
           }}
+          coolMode
         >
           {children}
         </RainbowKitProvider>
