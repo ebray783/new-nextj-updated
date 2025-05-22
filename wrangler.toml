@@ -17,3 +17,10 @@ workers_dev = true
 
 [build.environment]
 NODE_VERSION = "18"
+
+# Explicitly disable Cloudflare Access authentication
+[security]
+auth = false
+
+[access]
+enabled = false
