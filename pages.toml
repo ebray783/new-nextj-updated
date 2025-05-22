@@ -1,0 +1,24 @@
+[build.environment]
+# Disable Cloudflare Access authentication
+CF_PAGES_AUTH_DISABLED=true
+
+# Cloudflare builds environment variables
+CF_PAGES=true
+CF_PAGES_BRANCH="main"
+CF_PAGES_URL="https://new-nextj-updated.pages.dev"
+
+[build.processing]
+skip_processing = true
+
+[site]
+bucket = "./out"
+entry-point = "./"
+
+[build]
+command = "npm run build"
+
+[auth]
+require_auth = false
+
+[env]
+CF_PAGES_FORCE_NO_AUTH = true

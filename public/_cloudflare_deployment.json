@@ -1,0 +1,24 @@
+{
+  "builds": [
+    {
+      "src": "./out/**/*",
+      "use": "@cloudflare/pages",
+      "config": {
+        "zeroTrust": false,
+        "accessEnabled": false,
+        "requireAuth": false,
+        "bypassAuth": true
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/out/$1",
+      "headers": {
+        "CF-Access-Control": "off",
+        "CF-Access-Enable": "false"
+      }
+    }
+  ]
+}
