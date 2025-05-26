@@ -86,6 +86,26 @@ export default function Home() {
   const [activeNFT, setActiveNFT] = useState(0);
   const nftCarouselRef = useRef(null);
 
+  // Countdown target dates (persist across refreshes)
+  function getOrSetCountdown(key, days) {
+    if (typeof window === 'undefined') return new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+    let end = localStorage.getItem(key);
+    if (!end) {
+      end = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+      localStorage.setItem(key, end);
+    }
+    return new Date(end);
+  }
+
+  const [presaleEnd, setPresaleEnd] = useState(() => getOrSetCountdown('presaleEnd', 30));
+  const [airdropEnd, setAirdropEnd] = useState(() => getOrSetCountdown('airdropEnd', 25));
+
+  useEffect(() => {
+    // In case localStorage is not available on first render (SSR), set on mount
+    setPresaleEnd(getOrSetCountdown('presaleEnd', 30));
+    setAirdropEnd(getOrSetCountdown('airdropEnd', 25));
+  }, []);
+
   // Fix for hydration warning
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -205,7 +225,7 @@ export default function Home() {
             {/* Presale Countdown */}
             <Countdown 
               label="Presale Ends In"
-              targetDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)}
+              targetDate={presaleEnd}
             />
             
         <div className="stats-banner" title="These statistics are placeholders and will be updated after token launch">
@@ -335,7 +355,7 @@ export default function Home() {
               {/* Airdrop Countdown */}
               <Countdown 
                 label="Airdrop Ends In"
-                targetDate={new Date(Date.now() + 25 * 24 * 60 * 60 * 1000)}
+                targetDate={airdropEnd}
               />
               <form className="cyberpunk-form" onSubmit={(e) => e.preventDefault()}>
                 <label className="cyberpunk-label" htmlFor="walletInput"></label>
