@@ -15,6 +15,65 @@ import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { setupWeb3Functions } from './main.js';
 import AirdropClaim from './airdroptoken.js';
+
+// Countdown component
+function Countdown({ targetDate, label }) {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const distance = targetDate - now;
+      if (distance > 0) {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
+        setTimeLeft({ days, hours, minutes, seconds });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        clearInterval(interval);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [targetDate]);
+
+  return (
+    <div className="countdown-timer" style={{ margin: '24px 0', textAlign: 'center' }}>
+      <span style={{
+        fontWeight: 'bold',
+        fontSize: 32,
+        letterSpacing: 2,
+        color: '#00eaff',
+        background: 'linear-gradient(90deg, #00eaff 0%, #00bfff 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        textShadow: '0 0 16px #00eaff, 0 0 32px #00bfff, 0 0 8px #fff',
+        fontFamily: 'Orbitron, "Share Tech Mono", "Fira Mono", monospace',
+        textTransform: 'uppercase',
+        padding: '0 8px',
+      }}>
+        {label}:
+      </span>
+      <span style={{
+        fontFamily: 'Orbitron, "Share Tech Mono", "Fira Mono", monospace',
+        fontSize: 44,
+        color: '#00eaff',
+        background: 'linear-gradient(90deg, #00eaff 0%, #00bfff 100%)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        fontWeight: 'bold',
+        marginLeft: 16,
+        textShadow: '0 0 24px #00eaff, 0 0 48px #00bfff, 0 0 12px #fff',
+        letterSpacing: 2,
+        padding: '0 8px',
+      }}>
+        {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+      </span>
+    </div>
+  );
+}
+
 export default function Home() {
   const router = useRouter();
   
@@ -143,6 +202,11 @@ export default function Home() {
             <Link href="./presale" className="cyberpunk-btn presale-link">
               <i className="fa-solid fa-rocket"></i> Access Presale
             </Link>
+            {/* Presale Countdown */}
+            <Countdown 
+              label="Presale Ends In"
+              targetDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)}
+            />
             
         <div className="stats-banner" title="These statistics are placeholders and will be updated after token launch">
               <div className="stat-item">
@@ -268,6 +332,11 @@ export default function Home() {
             {/* Token Claim Container */}
             <div className="cyberpunk-container">
               <h2 className="cyberpunk-title">Claim Token Airdrop</h2>
+              {/* Airdrop Countdown */}
+              <Countdown 
+                label="Airdrop Ends In"
+                targetDate={new Date(Date.now() + 25 * 24 * 60 * 60 * 1000)}
+              />
               <form className="cyberpunk-form" onSubmit={(e) => e.preventDefault()}>
                 <label className="cyberpunk-label" htmlFor="walletInput"></label>
                 <input className="cyberpunk-input" id="walletInput" placeholder="0xYourWalletAddress" />
