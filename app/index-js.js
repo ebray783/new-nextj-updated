@@ -86,25 +86,14 @@ export default function Home() {
   const [activeNFT, setActiveNFT] = useState(0);
   const nftCarouselRef = useRef(null);
 
-  // Countdown target dates (persist across refreshes)
-  function getOrSetCountdown(key, days) {
-    if (typeof window === 'undefined') return new Date(Date.now() + days * 24 * 60 * 60 * 1000);
-    let end = localStorage.getItem(key);
-    if (!end) {
-      end = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
-      localStorage.setItem(key, end);
-    }
-    return new Date(end);
-  }
 
-  const [presaleEnd, setPresaleEnd] = useState(() => getOrSetCountdown('presaleEnd', 30));
-  const [airdropEnd, setAirdropEnd] = useState(() => getOrSetCountdown('airdropEnd', 25));
+  // Set the global start date for presale and airdrop
+  const GLOBAL_START = new Date('2025-05-27T00:00:00Z');
+  const PRESALE_DURATION_DAYS = 30;
+  const AIRDROP_DURATION_DAYS = 25;
 
-  useEffect(() => {
-    // In case localStorage is not available on first render (SSR), set on mount
-    setPresaleEnd(getOrSetCountdown('presaleEnd', 30));
-    setAirdropEnd(getOrSetCountdown('airdropEnd', 25));
-  }, []);
+  const presaleEnd = new Date(GLOBAL_START.getTime() + PRESALE_DURATION_DAYS * 24 * 60 * 60 * 1000);
+  const airdropEnd = new Date(GLOBAL_START.getTime() + AIRDROP_DURATION_DAYS * 24 * 60 * 60 * 1000);
 
   // Fix for hydration warning
   const [mounted, setMounted] = useState(false);
